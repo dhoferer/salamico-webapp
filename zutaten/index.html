@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Premium Pizza Zutaten | Salamico.de</title>
+    <meta name="description" content="Entdecke die besten Mehle, Tomaten und Zutaten für authentische italienische Pizza. Von San Marzano Tomaten bis Tipo 00 Mehle.">
+    <meta name="theme-color" content="#eb4b23">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Pizza Zutaten">
+    
+    <!-- Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
+    <style>
+        /* CSS Variables - Salamico Quiz Style */
+        :root {
+            --salamico-red: #eb4b23;
+            --salamico-red-dark: #c73e1d;
+            --salamico-red-light: #ff6b47;
+            --salamico-red-pale: #ffeee9;
+            --cream: #fff8f5;
+            --text-dark: #2c1810;
+            --text-medium: #6d4c35;
+            --border-light: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--salamico-red) 0%, var(--salamico-red-dark) 50%, #a8321a 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        /* Main Container */
+        .zutaten-container {
+            background: var(--cream);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+            border: 2px solid var(--salamico-red);
+            box-shadow: 0 20px 40px rgba(235, 75, 35, 0.2);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--text-dark);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: var(--text-medium);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        /* Category Navigation */
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            background: white;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            padding: 12px 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-btn:hover {
+            border-color: var(--salamico-red-light);
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            background: var(--salamico-red);
+            color: white;
+            border-color: var(--salamico-red-dark);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .section-description {
+            color: var(--text-medium);
+            font-size: 1rem;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* Product Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: var(--salamico-red-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(235, 75, 35, 0.15);
+        }
+
+        .product-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .product-icon {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--salamico-red-pale);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .product-origin {
+            color: var(--salamico-red);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .product-badge {
+            display: inline-block;
+            background: var(--salamico-red);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+
+        .product-description {
+            color: var(--text-medium);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 15px 0;
+        }
+
+        .product-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 15px 0;
+        }
+
+        .spec-tag {
+            background: var(--salamico-red-pale);
+            color: var(--salamico-red-dark);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .product-variants {
+            border-top: 1px solid var(--border-light);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        .variants-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .variant-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .variant-item {
+            background: var(--cream);
+            border: 1px solid var(--border-light);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--text-medium);
+        }
+
+        /* Shop Link Button */
+        .shop-link {
+            background: var(--salamico-red);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .shop-link:hover {
+            background: var(--salamico-red-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(235, 75, 35, 0.3);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--salamico-red);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .cta-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .cta-description {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: white;
+            color: var(--salamico-red);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--cream);
+            border-top: 2px solid var(--salamico-red-light);
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            padding: 8px 5px;
+            z-index: 100;
+            box-shadow: 0 -5px 15px rgba(235, 75, 35, 0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-medium);
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 5px 2px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .nav-item.active {
+            color: var(--salamico-red);
+            background: var(--salamico-red-pale);
+        }
+
+        .nav-item:hover {
+            color: var(--salamico-red);
+            background: var(--salamico-red-pale);
+        }
+
+        .nav-icon {
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+        }
+
+        .nav-text {
+            line-height: 1.1;
+            max-width: 60px;
+            word-wrap: break-word;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .zutaten-container {
+                padding: 25px 20px;
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .category-nav {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .category-nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            .category-btn {
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-item {
+                font-size: 0.6rem;
+                padding: 4px 1px;
+            }
+            
+            .nav-icon {
+                font-size: 1rem;
+            }
+            
+            .nav-text {
+                max-width: 50px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .nav-item {
+                font-size: 0.55rem;
+            }
+            
+            .nav-icon {
+                font-size: 0.9rem;
+            }
+            
+            .nav-text {
+                max-width: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="zutaten-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Premium Pizza Zutaten 🍕</h1>
+            <p>Entdecke authentische italienische Zutaten für die perfekte Pizza</p>
+        </header>
+
+        <!-- Category Navigation -->
+        <nav class="category-nav">
+            <button class="category-btn active" data-category="mehle">
+                🌾 Premium Mehle
+            </button>
+            <button class="category-btn" data-category="tomaten">
+                🍅 Tomaten
+            </button>
+            <button class="category-btn" data-category="franzoesisch">
+                🇫🇷 Französische Mehle
+            </button>
+        </nav>
+
+        <!-- Premium Mehle Section -->
+        <section id="mehle" class="content-section active">
+            <h2 class="section-title">Premium Mehle</h2>
+            <p class="section-description">
+                Authentische italienische Mehle für perfekte Pizza-Teige. 
+                Von traditionellem Tipo 00 bis zu speziellen Hartweizengrießen.
+            </p>
+
+            <div class="products-grid">
+                <!-- La Napoletana TIPO 00 -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">🇮🇹</div>
+                        <div>
+                            <h3 class="product-title">La Napoletana TIPO 00</h3>
+                            <p class="product-origin">Dallagiovanna, Italien</p>
+                            <span class="product-badge">Pizzamehl</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Das klassische neapolitanische Pizzamehl der Traditionsmarke Dallagiovanna. 
+                        Perfekt für authentische italienische Pizza mit dünnem, knusprigem Boden.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">TIPO 00</span>
+                        <span class="spec-tag">W-Wert: ~260</span>
+                        <span class="spec-tag">Protein: 12%</span>
+                    </div>
+                    <div class="product-variants">
+                        <p class="variants-title">Verfügbare Größen:</p>
+                        <div class="variant-list">
+                            <span class="variant-item">1 kg</span>
+                            <span class="variant-item">10 kg Karton</span>
+                        </div>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/mehle/italienische-mehle/dallagiovanna" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+
+                <!-- SEMOLA di Grano Duro -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">🌾</div>
+                        <div>
+                            <h3 class="product-title">SEMOLA di Grano Duro</h3>
+                            <p class="product-origin">Dallagiovanna, Italien</p>
+                            <span class="product-badge">Hartweizengrieß</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Echter italienischer Hartweizengrieß für rustikale Pizzen und Pasta. 
+                        Verleiht dem Teig eine charakteristische gelbe Farbe und nussigen Geschmack.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">100% Hartweizen</span>
+                        <span class="spec-tag">Protein: 13-14%</span>
+                        <span class="spec-tag">Goldgelb</span>
+                    </div>
+                    <div class="product-variants">
+                        <p class="variants-title">Verfügbare Größen:</p>
+                        <div class="variant-list">
+                            <span class="variant-item">1 kg</span>
+                            <span class="variant-item">5 kg</span>
+                        </div>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/mehle/italienische-mehle/dallagiovanna" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+
+                <!-- Molino Vigevano Tramonti Oro -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">🏔️</div>
+                        <div>
+                            <h3 class="product-title">Tramonti Oro</h3>
+                            <p class="product-origin">Molino Vigevano, Italien</p>
+                            <span class="product-badge">Typ "0"</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Premium Weichweizenmehl aus der traditionsreichen Mühle Vigevano. 
+                        Ideal für lange Teigreifung und komplexe Aromen.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">Typ "0"</span>
+                        <span class="spec-tag">W-Wert: 300-320</span>
+                        <span class="spec-tag">Lange Reifung</span>
+                    </div>
+                    <div class="product-variants">
+                        <p class="variants-title">Verfügbare Größen:</p>
+                        <div class="variant-list">
+                            <span class="variant-item">10 kg Sack</span>
+                        </div>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/mehle/italienische-mehle/dallagiovanna" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+
+                <!-- Panettone TIPO 00 -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">🍞</div>
+                        <div>
+                            <h3 class="product-title">Panettone TIPO 00</h3>
+                            <p class="product-origin">Dallagiovanna, Italien</p>
+                            <span class="product-badge">W390 P/L 0.55</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Speziell für süße Teige und Feingebäck entwickelt. 
+                        Auch hervorragend für Pizza mit längerer Fermentation geeignet.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">W-Wert: 390</span>
+                        <span class="spec-tag">P/L: 0.55</span>
+                        <span class="spec-tag">Hohe Wasserbindung</span>
+                    </div>
+                    <div class="product-variants">
+                        <p class="variants-title">Verfügbare Größen:</p>
+                        <div class="variant-list">
+                            <span class="variant-item">5 kg</span>
+                        </div>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/mehle/italienische-mehle/dallagiovanna" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+
+                <!-- SEMOLA Rimacinata -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">🌾</div>
+                        <div>
+                            <h3 class="product-title">SEMOLA Rimacinata</h3>
+                            <p class="product-origin">Dallagiovanna, Italien</p>
+                            <span class="product-badge">Fein gemahlener Grieß</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Fein gemahlener Hartweizengrieß, ideal für apulische Pizza und Focaccia. 
+                        Verleiht eine besondere Textur und goldene Farbe.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">Fein gemahlen</span>
+                        <span class="spec-tag">Hartweizen</span>
+                        <span class="spec-tag">Süditalienisch</span>
+                    </div>
+                    <div class="product-variants">
+                        <p class="variants-title">Verfügbare Größen:</p>
+                        <div class="variant-list">
+                            <span class="variant-item">1 kg</span>
+                        </div>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/mehle/italienische-mehle/dallagiovanna" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+
+                <!-- Molino Vigevano Vesuvio -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">🌋</div>
+                        <div>
+                            <h3 class="product-title">Vesuvio Weizenkeimmehl</h3>
+                            <p class="product-origin">Molino Vigevano, Italien</p>
+                            <span class="product-badge">Typ "0"</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Besonderes Weizenkeimmehl mit nussigem Geschmack. 
+                        Verleiht Pizza einen charakteristischen, intensiven Geschmack.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">Weizenkeim</span>
+                        <span class="spec-tag">Nussig</span>
+                        <span class="spec-tag">Intensiver Geschmack</span>
+                    </div>
+                    <div class="product-variants">
+                        <p class="variants-title">Verfügbare Größen:</p>
+                        <div class="variant-list">
+                            <span class="variant-item">500g</span>
+                            <span class="variant-item">10kg</span>
+                        </div>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/mehle/italienische-mehle/dallagiovanna" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Tomaten Section -->
+        <section id="tomaten" class="content-section">
+            <h2 class="section-title">Premium Tomaten</h2>
+            <p class="section-description">
+                Echte San Marzano D.O.P. Tomaten und weitere italienische Spezialitäten 
+                für die authentische Pizza-Sauce.
+            </p>
+
+            <div class="products-grid">
+                <!-- San Marzano D.O.P. -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">👑</div>
+                        <div>
+                            <h3 class="product-title">San Marzano D.O.P.</h3>
+                            <p class="product-origin">La Carmela, Kampanien</p>
+                            <span class="product-badge">D.O.P. Geschützt</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Die Königin der Pizzatomaten! Echte San Marzano D.O.P. aus dem Vulkangebiet 
+                        des Vesuv. Süß-säuerlicher Geschmack mit wenig Kernen.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">D.O.P. Zertifiziert</span>
+                        <span class="spec-tag">Vulkanerde</span>
+                        <span class="spec-tag">Wenig Kerne</span>
+                    </div>
+                    <div class="product-variants">
+                        <p class="variants-title">Verfügbare Größen:</p>
+                        <div class="variant-list">
+                            <span class="variant-item">400g Dose</span>
+                            <span class="variant-item">6er Pack</span>
+                            <span class="variant-item">12er Pack</span>
+                            <span class="variant-item">24er Pack</span>
+                        </div>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/tomaten/la-bottega-dei-gusti/la-carmela-tomaten" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+
+                <!-- Pomodori Pelati -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">🍅</div>
+                        <div>
+                            <h3 class="product-title">Pomodori Pelati</h3>
+                            <p class="product-origin">La Carmela, Italien</p>
+                            <span class="product-badge">Geschälte Tomaten</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Klassische geschälte italienische Tomaten in eigenem Saft. 
+                        Perfekt für Pizza-Sauce mit traditionellem Geschmack.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">Geschält</span>
+                        <span class="spec-tag">Eigener Saft</span>
+                        <span class="spec-tag">Klassisch</span>
+                    </div>
+                    <div class="product-variants">
+                        <p class="variants-title">Verfügbare Größen:</p>
+                        <div class="variant-list">
+                            <span class="variant-item">400g Dose</span>
+                            <span class="variant-item">12er Pack</span>
+                            <span class="variant-item">24er Pack</span>
+                        </div>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/tomaten/la-bottega-dei-gusti/la-carmela-tomaten" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+
+                <!-- Datteltomaten -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">🍇</div>
+                        <div>
+                            <h3 class="product-title">Datteltomaten</h3>
+                            <p class="product-origin">La Carmela, Italien</p>
+                            <span class="product-badge">Premium</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Süße, längliche Datteltomaten mit intensivem Geschmack. 
+                        Perfekt für Pizza mit besonderen Geschmacksnoten.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">Süß</span>
+                        <span class="spec-tag">Intensiv</span>
+                        <span class="spec-tag">Längliche Form</span>
+                    </div>
+                    <div class="product-variants">
+                        <p class="variants-title">Verfügbare Größen:</p>
+                        <div class="variant-list">
+                            <span class="variant-item">400g Dose</span>
+                        </div>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/tomaten/la-bottega-dei-gusti/la-carmela-tomaten" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+
+                <!-- Passata di Pomodoro -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">🥫</div>
+                        <div>
+                            <h3 class="product-title">Passata di Pomodoro</h3>
+                            <p class="product-origin">La Carmela, Italien</p>
+                            <span class="product-badge">Passierte Tomaten</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Passierte rote Tomaten für schnelle und einfache Pizza-Sauce. 
+                        Bereits perfekt passiert und sofort einsatzbereit.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">Passiert</span>
+                        <span class="spec-tag">Sofort einsatzbereit</span>
+                        <span class="spec-tag">680g Glas</span>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/tomaten/la-bottega-dei-gusti/la-carmela-tomaten" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Französische Mehle Section -->
+        <section id="franzoesisch" class="content-section">
+            <h2 class="section-title">Französische Mehle</h2>
+            <p class="section-description">
+                Traditionelle französische Mehle für Baguettes, Brioches und französische Pizza-Stile. 
+                Charakterisiert durch ihre einzigartige Mahltechnik.
+            </p>
+
+            <div class="products-grid">
+                <!-- GRUAU Rouge T45 -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">👑</div>
+                        <div>
+                            <h3 class="product-title">GRUAU Rouge T45</h3>
+                            <p class="product-origin">Frankreich</p>
+                            <span class="product-badge">Königsmehl</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Das Königsmehl unter den französischen Mehlen. Extrem fein vermahlen, 
+                        perfekt für Brioche, Croissants und französische Pizza-Varianten.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">T45</span>
+                        <span class="spec-tag">Sehr niedriger Aschegehalt</span>
+                        <span class="spec-tag">Extrafein</span>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/mehle/franzoesische-mehle" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+
+                <!-- Campaillette Grand Siècle T65 -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">🌱</div>
+                        <div>
+                            <h3 class="product-title">Campaillette Grand Siècle T65</h3>
+                            <p class="product-origin">Frankreich</p>
+                            <span class="product-badge">Bio-Mehl</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Biologisches französisches Mehl mit rustikalem Charakter. 
+                        Ideal für herzhafte Pizzen und traditionelle französische Brote.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">T65</span>
+                        <span class="spec-tag">Bio-Qualität</span>
+                        <span class="spec-tag">Rustikaler Geschmack</span>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/mehle/franzoesische-mehle" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+
+                <!-- Steinmühlenmehl T80 -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">⚙️</div>
+                        <div>
+                            <h3 class="product-title">Steinmühlenmehl T80</h3>
+                            <p class="product-origin">Frankreich</p>
+                            <span class="product-badge">Steingemahlen</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Traditionell steingemahlen für authentischen Geschmack. 
+                        Perfekt für rustikale Pizzen mit intensivem Getreidegeschmack.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">T80</span>
+                        <span class="spec-tag">Steingemahlen</span>
+                        <span class="spec-tag">Intensiver Geschmack</span>
+                    </div>
+                    <div class="product-variants">
+                        <p class="variants-title">Verfügbar als:</p>
+                        <div class="variant-list">
+                            <span class="variant-item">Konventionell</span>
+                            <span class="variant-item">Bio-Qualität</span>
+                        </div>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/mehle/franzoesische-mehle" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+
+                <!-- Fleur de Tradition T65 -->
+                <article class="product-card">
+                    <div class="product-header">
+                        <div class="product-icon">🌸</div>
+                        <div>
+                            <h3 class="product-title">Fleur de Tradition T65</h3>
+                            <p class="product-origin">Frankreich</p>
+                            <span class="product-badge">Traditionell</span>
+                        </div>
+                    </div>
+                    <p class="product-description">
+                        Traditionelles französisches Mehl mit ausgewogenem Geschmack. 
+                        Ideal für klassische französische Backwaren und Pizza.
+                    </p>
+                    <div class="product-specs">
+                        <span class="spec-tag">T65</span>
+                        <span class="spec-tag">Ausgewogen</span>
+                        <span class="spec-tag">Klassisch</span>
+                    </div>
+                    <a href="https://www.deligio-shop.de/c/mehle/franzoesische-mehle" class="shop-link" target="_blank">
+                        Jetzt kaufen →
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="cta-title">Finde dein perfektes Mehl!</h2>
+            <p class="cta-description">
+                Nicht sicher, welches Mehl zu deinem Pizza-Stil passt? 
+                Unser interaktives Mehl-Quiz hilft dir dabei!
+            </p>
+            <a href="../quiz/" class="cta-button">Zum Mehl-Quiz</a>
+        </section>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="../teigrechner/" class="nav-item" data-track="nav_teigrechner">
+            <div class="nav-icon">🧮</div>
+            <div class="nav-text">Teigrechner</div>
+        </a>
+        
+        <a href="../mehl-guide/" class="nav-item" data-track="nav_mehl">
+            <div class="nav-icon">🌾</div>
+            <div class="nav-text">Mehl-Guide</div>
+        </a>
+        
+        <a href="../equipment/" class="nav-item" data-track="nav_equipment">
+            <div class="nav-icon">🔥</div>
+            <div class="nav-text">Equipment</div>
+        </a>
+        
+        <a href="../zutaten/" class="nav-item active" data-track="nav_zutaten">
+            <div class="nav-icon">🍅</div>
+            <div class="nav-text">Zutaten</div>
+        </a>
+        
+        <a href="../quiz/" class="nav-item" data-track="nav_quiz">
+            <div class="nav-icon">🍕</div>
+            <div class="nav-text">Pizza-Quiz</div>
+        </a>
+        
+        <a href="../wissen/" class="nav-item" data-track="nav_wissen">
+            <div class="nav-icon">📚</div>
+            <div class="nav-text">Pizza-Wissen</div>
+        </a>
+    </nav>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const contentSections = document.querySelectorAll('.content-section');
+            const navItems = document.querySelectorAll('.nav-item');
+
+            // Handle category navigation
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const targetCategory = this.dataset.category;
+                    
+                    // Remove active class from all buttons
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Hide all sections
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show target section
+                    const targetSection = document.getElementById(targetCategory);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
+                    
+                    // Analytics tracking
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'category_switch', {
+                            'event_category': 'zutaten',
+                            'event_label': targetCategory
+                        });
+                    }
+                });
+            });
+
+            // Track shop link clicks
+            document.querySelectorAll('.shop-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'shop_link_click', {
+                            'event_category': 'zutaten',
+                            'event_label': this.href
+                        });
+                    }
+                });
+            });
+
+            // Track navigation clicks
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'navigation_click', {
+                            'event_category': 'bottom_nav',
+                            'event_label': this.dataset.track
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
