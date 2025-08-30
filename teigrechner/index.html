@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Pizza-Teigrechner - Pizza Toolkit</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Berechne die perfekte Teigmenge für deine Pizza mit unserem professionellen Teigrechner">
+    <meta name="theme-color" content="#dc3545">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    
+    <!-- Matomo Tracking -->
+    <script>
+        var _paq = window._paq = window._paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="../assets/js/matomo/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '1']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator-container">
+            <!-- Header -->
+            <header class="page-header">
+                <h1 class="page-title">Pizza-Teigrechner</h1>
+                <p class="page-subtitle">Berechne die perfekte Teigmenge für deine Pizza</p>
+            </header>
+
+            <!-- Calculator Form -->
+            <form id="pizza-calculator">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="ball_count" class="form-label">Teigballen Anzahl</label>
+                        <input type="number" id="ball_count" name="ball_count" value="4" required inputmode="numeric" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ball_weight" class="form-label">Teigballen Gramm</label>
+                        <input type="number" id="ball_weight" name="ball_weight" value="250" required inputmode="numeric" class="form-input">
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="hydration" class="form-label">Hydration (%)</label>
+                        <input type="number" id="hydration" name="hydration" value="60" required class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="yeast_type" class="form-label">Hefeart</label>
+                        <select id="yeast_type" name="yeast_type" required class="form-select">
+                            <option value="IDY">Trockenhefe</option>
+                            <option value="CY">Frische Hefe</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="warm_fermentation_time" class="form-label">Warmgäre (h)</label>
+                        <input type="number" id="warm_fermentation_time" name="warm_fermentation_time" value="2" required class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="warm_fermentation_temp" class="form-label">Warmgäre (°C)</label>
+                        <input type="number" id="warm_fermentation_temp" name="warm_fermentation_temp" value="22" required class="form-input">
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="cold_fermentation_time" class="form-label">Kaltgäre (h)</label>
+                        <input type="number" id="cold_fermentation_time" name="cold_fermentation_time" value="48" required class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cold_fermentation_temp" class="form-label">Kaltgäre (°C)</label>
+                        <input type="number" id="cold_fermentation_temp" name="cold_fermentation_temp" value="2" required class="form-input">
+                    </div>
+                </div>
+
+                <button type="submit" class="calculate-btn">Teig berechnen</button>
+            </form>
+
+            <!-- Results -->
+            <div id="results" class="results-container" style="display: none;">
+                <h2 class="results-title">Deine Teigrezeptur</h2>
+                <div class="ingredient-grid">
+                    <div class="ingredient-item">
+                        <img src="img/flour.png" alt="Mehl" class="ingredient-icon" loading="lazy">
+                        <div class="ingredient-info">
+                            <h3>Mehl</h3>
+                            <div class="amount"><span id="flour-result">0</span> g</div>
+                        </div>
+                    </div>
+                    
+                    <div class="ingredient-item">
+                        <img src="img/water.png" alt="Wasser" class="ingredient-icon" loading="lazy">
+                        <div class="ingredient-info">
+                            <h3>Wasser</h3>
+                            <div class="amount"><span id="water-result">0</span> ml</div>
+                        </div>
+                    </div>
+                    
+                    <div class="ingredient-item">
+                        <img src="img/salt.png" alt="Salz" class="ingredient-icon" loading="lazy">
+                        <div class="ingredient-info">
+                            <h3>Salz</h3>
+                            <div class="amount"><span id="salt-result">0</span> g</div>
+                        </div>
+                    </div>
+                    
+                    <div class="ingredient-item">
+                        <img src="img/yeast.png" alt="Hefe" class="ingredient-icon" loading="lazy">
+                        <div class="ingredient-info">
+                            <h3>Hefe</h3>
+                            <div class="amount"><span id="yeast-result">0</span> g</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-link">
+                <p>Made with 🍕 by <a href="https://www.salamico.de" target="_blank">Salamico</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" data-track="nav_teigrechner">
+            <div class="nav-icon">🧮</div>
+            <div class="nav-text">Teigrechner</div>
+        </a>
+        
+        <a href="../mehl-guide/" class="nav-item" data-track="nav_mehl">
+            <div class="nav-icon">🌾</div>
+            <div class="nav-text">Mehl-Guide</div>
+        </a>
+        
+        <a href="../equipment/" class="nav-item" data-track="nav_equipment">
+            <div class="nav-icon">🔥</div>
+            <div class="nav-text">Equipment</div>
+        </a>
+        
+        <a href="../zutaten/" class="nav-item" data-track="nav_zutaten">
+            <div class="nav-icon">🍅</div>
+            <div class="nav-text">Zutaten</div>
+        </a>
+        
+        <a href="../quiz/" class="nav-item" data-track="nav_quiz">
+            <div class="nav-icon">🍕</div>
+            <div class="nav-text">Pizza-Quiz</div>
+        </a>
+        
+        <a href="../wissen/" class="nav-item" data-track="nav_wissen">
+            <div class="nav-icon">📚</div>
+            <div class="nav-text">Pizza-Wissen</div>
+        </a>
+    </nav>
+
+    <script src="../assets/js/app.js"></script>
+    <script src="teigrechner-script.js"></script>
+</body>
+</html>
