@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Pizza-Quiz - Finde deinen Pizza-Typ</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Finde deinen persönlichen Pizza-Typ mit unserem interaktiven Quiz">
+    <meta name="theme-color" content="#dc3545">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Pizza-Quiz">
+    
+    <!-- Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="quiz-styles.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <!-- Header -->
+        <header class="quiz-header">
+            <h1>Pizza-Quiz</h1>
+            <p class="quiz-subtitle">Finde deinen persönlichen Pizza-Typ</p>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- Quiz Content -->
+        <div id="quizContent" class="quiz-content">
+            <div class="question-counter" id="questionCounter">Frage 1 von 10</div>
+            <div class="question" id="questionText"></div>
+            <div class="answers" id="answersContainer"></div>
+            <button id="nextBtn" class="next-btn">Nächste Frage</button>
+        </div>
+
+        <!-- Newsletter Section -->
+        <div id="newsletter" class="newsletter">
+            <h2 class="newsletter-title">Dein Pizza-Typ wartet!</h2>
+            <p class="newsletter-description">
+                Erhalte dein persönliches Ergebnis und unsere besten Pizza-Tipps direkt in dein Postfach.
+            </p>
+            
+            <div id="mc_embed_shell">
+                <div id="mc_embed_signup">
+                    <form action="https://salamico.us2.list-manage.com/subscribe/post?u=58d6473cf3b4045c8c1364c0d&amp;id=aa6596e93c&amp;f_id=0046c1e3f0" 
+                          method="post" 
+                          id="mc-embedded-subscribe-form" 
+                          name="mc-embedded-subscribe-form" 
+                          class="validate newsletter-form" 
+                          target="_self" 
+                          novalidate="">
+                          
+                        <div id="mc_embed_signup_scroll">
+                            <div class="form-group">
+                                <label for="mce-FNAME" class="form-label">Vorname (optional)</label>
+                                <input type="text" 
+                                       name="FNAME" 
+                                       id="mce-FNAME" 
+                                       class="form-input" 
+                                       placeholder="Dein Vorname"
+                                       value="">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="mce-EMAIL" class="form-label">E-Mail-Adresse *</label>
+                                <input type="email" 
+                                       name="EMAIL" 
+                                       class="required email form-input" 
+                                       id="mce-EMAIL" 
+                                       required="" 
+                                       placeholder="deine@email.de"
+                                       value="">
+                            </div>
+                            
+                            <!-- Hidden tag for quiz subscribers -->
+                            <div style="display: none;">
+                                <input type="hidden" name="tags" value="1962180">
+                            </div>
+                            
+                            <!-- Mailchimp responses -->
+                            <div id="mce-responses" class="clear">
+                                <div class="response" id="mce-error-response" style="display: none;"></div>
+                                <div class="response" id="mce-success-response" style="display: none;"></div>
+                            </div>
+                            
+                            <!-- Bot protection -->
+                            <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                                <input type="text" name="b_58d6473cf3b4045c8c1364c0d_aa6596e93c" tabindex="-1" value="">
+                            </div>
+                            
+                            <button type="submit" 
+                                    name="subscribe" 
+                                    id="mc-embedded-subscribe" 
+                                    class="subscribe-btn">
+                                Ergebnis erhalten & Tipps abonnieren
+                            </button>
+                            
+                            <div class="newsletter-note">
+                                * Pflichtfeld. Du kannst dich jederzeit wieder abmelden.
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <a href="#" id="skipLink" class="skip-link">
+                Ergebnis ohne Newsletter anzeigen
+            </a>
+        </div>
+
+        <!-- Result Section -->
+        <div id="result" class="result">
+            <div class="result-pizza" id="resultEmoji"></div>
+            <h2 class="result-title" id="resultTitle"></h2>
+            <div class="result-description" id="resultDescription"></div>
+            <button id="restartBtn" class="restart-btn">Quiz wiederholen</button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="../teigrechner/" class="nav-item" data-track="nav_teigrechner">
+            <div class="nav-icon">🧮</div>
+            <div class="nav-text">Teigrechner</div>
+        </a>
+        
+        <a href="../mehl-guide/" class="nav-item" data-track="nav_mehl">
+            <div class="nav-icon">🌾</div>
+            <div class="nav-text">Mehl-Guide</div>
+        </a>
+        
+        <a href="../equipment/" class="nav-item" data-track="nav_equipment">
+            <div class="nav-icon">🔥</div>
+            <div class="nav-text">Equipment</div>
+        </a>
+        
+        <a href="../zutaten/" class="nav-item" data-track="nav_zutaten">
+            <div class="nav-icon">🍅</div>
+            <div class="nav-text">Zutaten</div>
+        </a>
+        
+        <a href="#" class="nav-item active" data-track="nav_quiz">
+            <div class="nav-icon">🍕</div>
+            <div class="nav-text">Pizza-Quiz</div>
+        </a>
+        
+        <a href="../wissen/" class="nav-item" data-track="nav_wissen">
+            <div class="nav-icon">📚</div>
+            <div class="nav-text">Pizza-Wissen</div>
+        </a>
+    </nav>
+
+    <script src="quiz-data.js"></script>
+    <script src="quiz-app.js"></script>
+</body>
+</html>
