@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Dein Pizza-Toolkit</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Dein komplettes Pizza-Toolkit: Teigrechner, Mehl-Guide, Equipment und mehr">
+    <meta name="theme-color" content="#dc3545">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Pizza-Toolkit">
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+    
+    <!-- Manifest & Styles -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Matomo Tracking Code -->
+    <script>
+        var _paq = window._paq = window._paq || [];
+        
+        // Matomo Configuration
+        const MATOMO_CONFIG = {
+            url: 'YOUR_MATOMO_URL', // z.B. 'https://analytics.yoursite.com/'
+            siteId: 'YOUR_SITE_ID', // z.B. '1'
+        };
+        
+        // PWA Tracking Setup
+        _paq.push(['setCustomDimension', 1, 'PWA']); // Custom Dimension für PWA
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        
+        // Load Matomo script
+        (function() {
+            var u = MATOMO_CONFIG.url;
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
+            _paq.push(['setSiteId', MATOMO_CONFIG.siteId]);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.async = true;
+            g.src = u + 'matomo.js';
+            s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="logo">Dein Pizza-Toolkit</h1>
+        </header>
+
+        <main class="main-content">
+            <div class="grid">
+                <!-- Pizza-Teigrechner -->
+                <div class="card calculator" onclick="navigateTo('teigrechner')" data-track="teigrechner_click">
+                    <h2 class="card-title">Teigrechner</h2>
+                    <p class="card-description">
+                        Berechne die perfekte Teigmenge für deine Pizza
+                    </p>
+                    <button class="card-button">Berechnen</button>
+                </div>
+
+                <!-- Mehl-Guide -->
+                <div class="card guide" onclick="navigateTo('mehl-guide')" data-track="mehl_guide_click">
+                    <h2 class="card-title">Mehl-Guide</h2>
+                    <p class="card-description">
+                        W-Werte und Mehlsorten im Überblick
+                    </p>
+                    <button class="card-button">Entdecken</button>
+                </div>
+
+                <!-- Equipment -->
+                <div class="card shop" onclick="navigateTo('equipment')" data-track="equipment_click">
+                    <h2 class="card-title">Equipment</h2>
+                    <p class="card-description">
+                        Pizzaöfen, Steine & Profi-Zubehör
+                    </p>
+                    <button class="card-button">Ansehen</button>
+                </div>
+
+                <!-- Zutaten -->
+                <div class="card shop" onclick="navigateTo('zutaten')" data-track="zutaten_click">
+                    <h2 class="card-title">Zutaten</h2>
+                    <p class="card-description">
+                        Premium-Zutaten für perfekte Pizza
+                    </p>
+                    <button class="card-button">Kaufen</button>
+                </div>
+
+                <!-- Pizza-Typ Quiz -->
+                <div class="card quiz" onclick="navigateTo('quiz')" data-track="quiz_click">
+                    <h2 class="card-title">Pizza-Quiz</h2>
+                    <p class="card-description">
+                        Finde deinen persönlichen Pizza-Typ
+                    </p>
+                    <button class="card-button">Quiz starten</button>
+                </div>
+
+                <!-- Pizza-Wissen -->
+                <div class="card guide" onclick="navigateTo('wissen')" data-track="wissen_click">
+                    <h2 class="card-title">Pizza-Wissen</h2>
+                    <p class="card-description">
+                        Tipps, Tricks & Rezepte vom Profi
+                    </p>
+                    <button class="card-button">Lesen</button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p class="footer-text">
+                Inspiriert von <a href="https://salamico.de" target="_blank" data-track="salamico_link">Salamico.de</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="assets/js/matomo.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
