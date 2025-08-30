@@ -7,13 +7,19 @@
     
     <!-- PWA Meta Tags -->
     <meta name="description" content="Berechne die perfekte Teigmenge für deine Pizza mit unserem professionellen Teigrechner">
-    <meta name="theme-color" content="#dc3545">
+    <meta name="theme-color" content="#ff6b35">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Pizza-Toolkit">
     
-    <!-- Fonts & Styles -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="../assets/icons/icon-192.png">
+    
+    <!-- Manifest & Unified Styles -->
+    <link rel="manifest" href="../manifest.json">
     <link rel="stylesheet" href="../assets/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Matomo Tracking -->
     <script>
@@ -28,124 +34,316 @@
             g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
         })();
     </script>
+
+    <style>
+        /* Page-specific styles for calculator */
+        .calculator-container {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .calculator-form {
+            padding: 2rem 1.5rem;
+        }
+
+        .ingredient-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .ingredient-item {
+            background: var(--surface-light);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ingredient-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+        }
+
+        .ingredient-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .ingredient-item:hover::before {
+            transform: scaleX(1);
+        }
+
+        .ingredient-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            border-radius: 50%;
+            background: var(--gradient-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .ingredient-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-orange);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .results-container {
+            padding: 2rem 1.5rem;
+            border-top: 1px solid var(--border-light);
+            background: var(--surface-light);
+        }
+
+        .results-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .calculate-btn {
+            width: 100%;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            margin-top: 1rem;
+        }
+
+        /* Form enhancements */
+        .form-grid {
+            margin-bottom: 2rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-orange);
+        }
+
+        /* Icon placeholders until real icons are added */
+        .ingredient-icon.flour::after { content: "🌾"; }
+        .ingredient-icon.water::after { content: "💧"; }
+        .ingredient-icon.salt::after { content: "🧂"; }
+        .ingredient-icon.yeast::after { content: "🍞"; }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .calculator-container {
+                margin: 0 -1rem 2rem;
+                border-radius: 0;
+            }
+
+            .calculator-form {
+                padding: 1.5rem 1rem;
+            }
+
+            .ingredient-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .ingredient-item {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ingredient-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div class="calculator-container">
-            <!-- Header -->
-            <header class="page-header">
-                <h1 class="page-title">Pizza-Teigrechner</h1>
-                <p class="page-subtitle">Berechne die perfekte Teigmenge für deine Pizza</p>
-            </header>
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1 class="page-title">Pizza-Teigrechner</h1>
+            <p class="page-subtitle">Berechne die perfekte Teigmenge für deine Pizza</p>
+        </header>
 
-            <!-- Calculator Form -->
-            <form id="pizza-calculator">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="ball_count" class="form-label">Teigballen Anzahl</label>
-                        <input type="number" id="ball_count" name="ball_count" value="4" required inputmode="numeric" class="form-input">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="ball_weight" class="form-label">Teigballen Gramm</label>
-                        <input type="number" id="ball_weight" name="ball_weight" value="250" required inputmode="numeric" class="form-input">
-                    </div>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="hydration" class="form-label">Hydration (%)</label>
-                        <input type="number" id="hydration" name="hydration" value="60" required class="form-input">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="yeast_type" class="form-label">Hefeart</label>
-                        <select id="yeast_type" name="yeast_type" required class="form-select">
-                            <option value="IDY">Trockenhefe</option>
-                            <option value="CY">Frische Hefe</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="warm_fermentation_time" class="form-label">Warmgäre (h)</label>
-                        <input type="number" id="warm_fermentation_time" name="warm_fermentation_time" value="2" required class="form-input">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="warm_fermentation_temp" class="form-label">Warmgäre (°C)</label>
-                        <input type="number" id="warm_fermentation_temp" name="warm_fermentation_temp" value="22" required class="form-input">
-                    </div>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="cold_fermentation_time" class="form-label">Kaltgäre (h)</label>
-                        <input type="number" id="cold_fermentation_time" name="cold_fermentation_time" value="48" required class="form-input">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="cold_fermentation_temp" class="form-label">Kaltgäre (°C)</label>
-                        <input type="number" id="cold_fermentation_temp" name="cold_fermentation_temp" value="2" required class="form-input">
-                    </div>
-                </div>
-
-                <button type="submit" class="calculate-btn">Teig berechnen</button>
-            </form>
-
-            <!-- Results -->
-            <div id="results" class="results-container" style="display: none;">
-                <h2 class="results-title">Deine Teigrezeptur</h2>
-                <div class="ingredient-grid">
-                    <div class="ingredient-item">
-                        <img src="img/flour.png" alt="Mehl" class="ingredient-icon" loading="lazy">
-                        <div class="ingredient-info">
-                            <h3>Mehl</h3>
-                            <div class="amount"><span id="flour-result">0</span> g</div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="calculator-container">
+                <!-- Calculator Form -->
+                <form id="pizza-calculator" class="calculator-form">
+                    <div class="form-section">
+                        <h3 class="form-section-title">Pizza-Details</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="ball_count" class="form-label">Anzahl Teigballen</label>
+                                <input type="number" id="ball_count" name="ball_count" value="4" min="1" max="20" required inputmode="numeric" class="form-input">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="ball_weight" class="form-label">Gewicht pro Teigling (g)</label>
+                                <input type="number" id="ball_weight" name="ball_weight" value="250" min="100" max="500" required inputmode="numeric" class="form-input">
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="ingredient-item">
-                        <img src="img/water.png" alt="Wasser" class="ingredient-icon" loading="lazy">
-                        <div class="ingredient-info">
-                            <h3>Wasser</h3>
-                            <div class="amount"><span id="water-result">0</span> ml</div>
+
+                    <div class="form-section">
+                        <h3 class="form-section-title">Teig-Konfiguration</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="hydration" class="form-label">Hydration (%)</label>
+                                <input type="number" id="hydration" name="hydration" value="60" min="50" max="80" required class="form-input">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="yeast_type" class="form-label">Hefeart</label>
+                                <select id="yeast_type" name="yeast_type" required class="form-select">
+                                    <option value="IDY">Trockenhefe (IDY)</option>
+                                    <option value="CY">Frische Hefe</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="ingredient-item">
-                        <img src="img/salt.png" alt="Salz" class="ingredient-icon" loading="lazy">
-                        <div class="ingredient-info">
-                            <h3>Salz</h3>
-                            <div class="amount"><span id="salt-result">0</span> g</div>
+
+                    <div class="form-section">
+                        <h3 class="form-section-title">Gärung</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="warm_fermentation_time" class="form-label">Warmgärung (Stunden)</label>
+                                <input type="number" id="warm_fermentation_time" name="warm_fermentation_time" value="2" min="0" max="24" required class="form-input">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="warm_fermentation_temp" class="form-label">Warmgärung (°C)</label>
+                                <input type="number" id="warm_fermentation_temp" name="warm_fermentation_temp" value="22" min="18" max="30" required class="form-input">
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="cold_fermentation_time" class="form-label">Kaltgärung (Stunden)</label>
+                                <input type="number" id="cold_fermentation_time" name="cold_fermentation_time" value="48" min="0" max="120" required class="form-input">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="cold_fermentation_temp" class="form-label">Kaltgärung (°C)</label>
+                                <input type="number" id="cold_fermentation_temp" name="cold_fermentation_temp" value="2" min="0" max="8" required class="form-input">
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="ingredient-item">
-                        <img src="img/yeast.png" alt="Hefe" class="ingredient-icon" loading="lazy">
-                        <div class="ingredient-info">
-                            <h3>Hefe</h3>
-                            <div class="amount"><span id="yeast-result">0</span> g</div>
+
+                    <button type="submit" class="btn calculate-btn" id="calculateBtn">
+                        Teig berechnen
+                    </button>
+                </form>
+
+                <!-- Results Section -->
+                <div id="results" class="results-container" style="display: none;">
+                    <h2 class="results-title">Deine Teigrezeptur</h2>
+                    <div class="ingredient-grid">
+                        <div class="ingredient-item">
+                            <div class="ingredient-icon flour"></div>
+                            <div class="ingredient-info">
+                                <h3>Mehl</h3>
+                                <div class="amount"><span id="flour-result">0</span> g</div>
+                            </div>
+                        </div>
+                        
+                        <div class="ingredient-item">
+                            <div class="ingredient-icon water"></div>
+                            <div class="ingredient-info">
+                                <h3>Wasser</h3>
+                                <div class="amount"><span id="water-result">0</span> ml</div>
+                            </div>
+                        </div>
+                        
+                        <div class="ingredient-item">
+                            <div class="ingredient-icon salt"></div>
+                            <div class="ingredient-info">
+                                <h3>Salz</h3>
+                                <div class="amount"><span id="salt-result">0</span> g</div>
+                            </div>
+                        </div>
+                        
+                        <div class="ingredient-item">
+                            <div class="ingredient-icon yeast"></div>
+                            <div class="ingredient-info">
+                                <h3>Hefe</h3>
+                                <div class="amount"><span id="yeast-result">0</span> g</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="footer-link">
-                <p>Made with 🍕 by <a href="https://www.salamico.de" target="_blank">Salamico</a></p>
-            </div>
-        </div>
+            <!-- CTA Section -->
+            <section class="cta-section">
+                <div class="cta-content">
+                    <h2 class="cta-title">Finde das passende Mehl!</h2>
+                    <p class="cta-description">
+                        Jetzt wo du die Mengen kennst - welches Mehl passt zu deinem Pizza-Stil? 
+                        Unser Mehl-Guide hilft dir bei der Auswahl.
+                    </p>
+                    <a href="../mehl-guide/" class="btn cta-button">
+                        Zum Mehl-Guide
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer Link -->
+        <footer class="footer-link">
+            <p>Made with 🍕 by <a href="https://www.salamico.de" target="_blank">Salamico</a></p>
+        </footer>
     </div>
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
+        <a href="../" class="nav-item" data-track="nav_home">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-text">Home</div>
+        </a>
+        
         <a href="#" class="nav-item active" data-track="nav_teigrechner">
             <div class="nav-icon">🧮</div>
             <div class="nav-text">Teigrechner</div>
         </a>
         
-        <a href="../mehl-guide/" class="nav-item" data-track="nav_mehl">
+        <a href="../mehl-guide/" class="nav-item" data-track="nav_mehl_guide">
             <div class="nav-icon">🌾</div>
             <div class="nav-text">Mehl-Guide</div>
         </a>
@@ -160,18 +358,140 @@
             <div class="nav-text">Zutaten</div>
         </a>
         
-        <a href="../quiz/" class="nav-item" data-track="nav_quiz">
+        <a href="../quiz/" class="nav-item" data-track="nav_pizza_quiz">
             <div class="nav-icon">🍕</div>
             <div class="nav-text">Pizza-Quiz</div>
         </a>
-        
-        <a href="../wissen/" class="nav-item" data-track="nav_wissen">
-            <div class="nav-icon">📚</div>
-            <div class="nav-text">Pizza-Wissen</div>
-        </a>
     </nav>
 
-    <script src="../assets/js/app.js"></script>
-    <script src="teigrechner-script.js"></script>
+    <!-- Unified JavaScript -->
+    <script src="../assets/js/components.js"></script>
+    
+    <!-- Calculator Logic -->
+    <script>
+        class PizzaCalculator {
+            constructor() {
+                this.form = document.getElementById('pizza-calculator');
+                this.resultsSection = document.getElementById('results');
+                this.init();
+            }
+
+            init() {
+                this.form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.calculate();
+                });
+
+                // Auto-calculate on input change
+                this.form.addEventListener('input', () => {
+                    if (this.resultsSection.style.display !== 'none') {
+                        this.calculate();
+                    }
+                });
+            }
+
+            calculate() {
+                try {
+                    const button = document.getElementById('calculateBtn');
+                    window.Salamico.Forms.setLoadingState(button, true);
+
+                    // Get form values
+                    const ballCount = parseInt(document.getElementById('ball_count').value);
+                    const ballWeight = parseInt(document.getElementById('ball_weight').value);
+                    const hydration = parseInt(document.getElementById('hydration').value);
+                    const yeastType = document.getElementById('yeast_type').value;
+                    const warmTime = parseInt(document.getElementById('warm_fermentation_time').value);
+                    const warmTemp = parseInt(document.getElementById('warm_fermentation_temp').value);
+                    const coldTime = parseInt(document.getElementById('cold_fermentation_time').value);
+                    const coldTemp = parseInt(document.getElementById('cold_fermentation_temp').value);
+
+                    // Validate inputs
+                    if (!this.validateInputs(ballCount, ballWeight, hydration)) {
+                        throw new Error('Ungültige Eingabewerte');
+                    }
+
+                    // Calculate total dough weight
+                    const totalWeight = ballCount * ballWeight;
+
+                    // Calculate flour (base weight)
+                    const flourWeight = Math.round(totalWeight / (1 + (hydration / 100) + 0.02 + this.getYeastRatio(yeastType, warmTime, coldTime)));
+
+                    // Calculate other ingredients
+                    const waterWeight = Math.round(flourWeight * (hydration / 100));
+                    const saltWeight = Math.round(flourWeight * 0.02); // 2% salt
+                    const yeastWeight = this.calculateYeast(flourWeight, yeastType, warmTime, warmTemp, coldTime, coldTemp);
+
+                    // Display results
+                    this.displayResults(flourWeight, waterWeight, saltWeight, yeastWeight);
+
+                    // Show results section
+                    this.resultsSection.style.display = 'block';
+                    window.Salamico.Utils.scrollTo(this.resultsSection, 20);
+
+                    // Track calculation
+                    window.Salamico.Utils.log('Calculator', 'Calculate', `${ballCount}x${ballWeight}g`);
+
+                    setTimeout(() => {
+                        window.Salamico.Forms.setLoadingState(button, false);
+                    }, 500);
+
+                } catch (error) {
+                    console.error('Calculation error:', error);
+                    window.Salamico.Forms.setLoadingState(document.getElementById('calculateBtn'), false);
+                    alert('Fehler bei der Berechnung. Bitte überprüfen Sie Ihre Eingaben.');
+                }
+            }
+
+            validateInputs(ballCount, ballWeight, hydration) {
+                return ballCount > 0 && ballCount <= 20 &&
+                       ballWeight >= 100 && ballWeight <= 500 &&
+                       hydration >= 50 && hydration <= 80;
+            }
+
+            getYeastRatio(yeastType, warmTime, coldTime) {
+                // Base yeast percentage (will be calculated more precisely later)
+                return yeastType === 'IDY' ? 0.005 : 0.015; // 0.5% IDY, 1.5% fresh
+            }
+
+            calculateYeast(flourWeight, yeastType, warmTime, warmTemp, coldTime, coldTemp) {
+                // Simplified yeast calculation based on fermentation time and temperature
+                const totalTime = warmTime + (coldTime * 0.25); // Cold time counts as 1/4
+                
+                let yeastPercentage;
+                if (yeastType === 'IDY') {
+                    // Instant dry yeast: 0.1-1% depending on time
+                    yeastPercentage = Math.max(0.001, Math.min(0.01, 24 / totalTime * 0.002));
+                } else {
+                    // Fresh yeast: 3x more than IDY
+                    yeastPercentage = Math.max(0.003, Math.min(0.03, 24 / totalTime * 0.006));
+                }
+
+                return Math.round(flourWeight * yeastPercentage * 10) / 10; // Round to 1 decimal
+            }
+
+            displayResults(flour, water, salt, yeast) {
+                document.getElementById('flour-result').textContent = flour;
+                document.getElementById('water-result').textContent = water;
+                document.getElementById('salt-result').textContent = salt;
+                document.getElementById('yeast-result').textContent = yeast;
+
+                // Add animation to results
+                const items = document.querySelectorAll('.ingredient-item');
+                items.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            item.style.transform = 'scale(1)';
+                        }, 200);
+                    }, index * 100);
+                });
+            }
+        }
+
+        // Initialize calculator when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new PizzaCalculator();
+        });
+    </script>
 </body>
 </html>
